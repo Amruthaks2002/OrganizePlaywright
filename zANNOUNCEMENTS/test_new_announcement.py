@@ -1,0 +1,33 @@
+from playwright.sync_api import sync_playwright
+import time
+def test_newannouncement():
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=False, slow_mo=500)
+        context = browser.new_context()
+        page = context.new_page()
+        page.goto("https://organice.qc.iocod.com")
+        page.wait_for_selector("#email")
+        page.fill("#email", "admin@example.com")
+        page.fill("#password", "password")
+        page.click("[data-testid='sign-in-button']")
+        page.wait_for_url("**/dashboard")
+        print("✔ Logged in successfully")
+        page.click('button[data-testid="announcements-button"]')
+        time.sleep(1)
+        page.click("text=View all announcements")
+        page.wait_for_url("**/announcements/manage")
+        print("✔ Navigated to Announcements page")
+        page.click("button:has-text('Create New')")
+        print("✔ Clicked Create New button")
+        page.fill("input[placeholder='Announcement title']", "New Announcement Title")
+        description_box = page.locator("textarea[placeholder='Describe your announcement...']")
+        description_box.fill("This is a test announcement description.")
+        print("✔ Form filled successfully")
+        page.click("button[type='submit']:has-text('Create Announcement')")
+        print("✔ Clicked Create Announcement")
+        success_msg = page.locator("text=Announcement created successfully!")
+        success_msg.wait_for(timeout=10000)
+        print("✔ Success message displayed")
+        page.wait_for_load_state("networkidle")
+        time.sleep(2)
+
