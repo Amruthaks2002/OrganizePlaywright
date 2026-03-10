@@ -30,6 +30,5 @@ def test_mail_logs_filter():
 
         page.get_by_role("button", name=" Reset ").click()
         time.sleep(2)
-help
 
 
