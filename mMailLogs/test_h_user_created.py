@@ -16,6 +16,7 @@ def test_wfh_submitted():
         page.locator('input[type="date"]').first.fill("2026-03-03")
         time.sleep(1)
         page.locator("tbody tr").first.get_by_role("link", name="Welcome Email").click()
-        time.sleep(2)
+        time.sleep(1)
         expect(page.get_by_text("Recipient")).to_be_visible()
+
 
