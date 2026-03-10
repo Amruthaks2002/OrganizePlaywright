@@ -10,10 +10,12 @@ def test_mail_logs_filter():
         context = browser.new_context()
         page = context.new_page()
         login(page)
+        page.get_by_test_id("theme-toggle-button").click()
         page.get_by_test_id("sidebar-navlink-mail logs").click()
         page.locator("select").first.select_option(label="Leave Submitted")
 
         page.locator("tbody tr").first.get_by_role("link", name = "Leave Application Submitted").click()
+        expect(page.get_by_text("submitted a new leave request")).to_be_visible()
         page.get_by_role("link", name="View Request").click()
         time.sleep(3)
         with context.expect_page() as new_page_info:

@@ -1,27 +1,26 @@
-import re
-from playwright.sync_api import sync_playwright, expect
-from utils.login_helper import login
+import time
 
-def test_mail_logs_filter():
+from playwright.sync_api import sync_playwright , expect
+from utils.login_helper import login
+import re
+
+def test_wfh_submitted():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         context = browser.new_context()
-        page = context.new_page()
-
+        page  = context.new_page()
         login(page)
         page.get_by_test_id("theme-toggle-button").click()
-
         page.get_by_test_id("sidebar-navlink-mail logs").click()
+        page.locator("select").first.select_option(label="WFH Rejected")
+        time.sleep(2)
 
-        page.locator("select").first.select_option(label="Leave Rejected")
+        page.locator("tbody tr").first.get_by_role("link", name="WFH Request Rejected").click()
 
-        page.locator("tbody tr").first.get_by_role("link", name="Leave Application Rejected").click()
-        expect(page.get_by_text("Leave Request has been rejected")).to_be_visible()
+        expect(page.get_by_text(" Work From Home Request has been rejected")).to_be_visible()
 
         with context.expect_page() as new_page_info:
             page.get_by_role("link", name="View Request").click()
-
         new_page = new_page_info.value
         new_page.wait_for_load_state()
-
-        expect(new_page).to_have_url(re.compile(r".*/leave/dashboard"))
+        expect(new_page).to_have_url(re.compile(r".*/hours"))

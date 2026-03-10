@@ -15,6 +15,7 @@ def test_mail_logs_filter():
         page.locator("select").first.select_option(label="Leave Approved")
 
         page.locator("tbody tr").first.get_by_role("link", name="Leave Application Approved").click()
+        expect(page.get_by_text("Leave Request has been approved")).to_be_visible()
 
         with context.expect_page() as new_page_info:
             page.get_by_role("link", name="View Request").click()

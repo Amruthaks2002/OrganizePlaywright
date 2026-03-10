@@ -11,6 +11,8 @@ def test_mail_logs_filter():
 
         login(page)
 
+        page.get_by_test_id("theme-toggle-button").click()
+
         page.get_by_test_id("sidebar-navlink-mail logs").click()
 
         page.locator("select").first.select_option(label="Leave Approved")
@@ -126,5 +128,6 @@ def test_mail_logs_filter():
         for i in range(count):
             text = users.nth(i).text_content().strip()
             assert text == "failed", f"Unexpected event found: {text}"
+
 
 
