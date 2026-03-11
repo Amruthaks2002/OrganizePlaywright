@@ -13,6 +13,7 @@ def test_delete_role():
         context = browser.new_context()
         page = browser.new_page()
         login(page)
+        page.get_by_test_id("theme-toggle-button").click()
 
         page.get_by_test_id("sidebar-parent-manage").click()
         page.get_by_test_id("sidebar-child-roles").click()

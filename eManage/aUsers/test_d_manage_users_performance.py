@@ -13,6 +13,5 @@ def test_edit_users():
         time.sleep(2)
         first_row = page.locator("tbody tr").first
         first_row.get_by_role("link", name="Performance").click()
-        time.sleep(3)
         page.get_by_role("link", name="View Full Year Leave Details").click()
-        time.sleep(5)
+        time.sleep(2)

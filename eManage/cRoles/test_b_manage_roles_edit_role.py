@@ -15,6 +15,7 @@ def test_edit_role():
         page = context.new_page()
 
         login(page)
+        page.get_by_test_id("theme-toggle-button").click()
 
         page.get_by_test_id("sidebar-parent-manage").click()
         page.get_by_test_id("sidebar-child-roles").click()

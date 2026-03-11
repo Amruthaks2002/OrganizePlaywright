@@ -13,6 +13,7 @@ def test_team_creation():
         context = browser.new_context()
         page = context.new_page()
         login(page)
+        page.get_by_test_id("theme-toggle-button").click()
         page.get_by_test_id("sidebar-parent-manage").click()
         page.get_by_test_id("sidebar-child-teams").click()
         page.get_by_role("button", name="Create Team").click()

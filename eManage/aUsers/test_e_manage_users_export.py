@@ -10,4 +10,4 @@ def test_export_users():
         page.get_by_test_id("sidebar-parent-manage").click()
         page.get_by_test_id("sidebar-child-users").click()
         page.get_by_role("button", name= "Export Users").click()
-        time.sleep(5)
+        time.sleep(3)

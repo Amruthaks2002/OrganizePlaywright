@@ -51,10 +51,21 @@ def test_manage_users():
         manager_input.fill("HR")
         page.locator("body >> li:has-text('HR Manager')").click()
 
+        # hire date
+        from datetime import date
+        today = date.today().strftime("%Y-%m-%d")
+        page.fill("#hire_date", today)
+
+        # birthdate
+        from datetime import date
+        today = date.today().strftime("%Y-%m-%d")
+        page.fill("#hire_date", today)
+
         # Submit
         page.get_by_role("button", name="Create User").click()
 
         # Wait for success message
         wait_for_message(page, "Employee added successfully.")
+
 
         browser.close()

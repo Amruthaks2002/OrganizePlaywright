@@ -13,6 +13,7 @@ def test_edit_teams():
         context = browser.new_context()
         page = context.new_page()
         login(page)
+        page.get_by_test_id("theme-toggle-button").click()
         page.get_by_test_id("sidebar-parent-manage").click()
         page.get_by_test_id("sidebar-child-teams").click()
         row = page.locator("tbody tr:has-text('Automation Team')")
