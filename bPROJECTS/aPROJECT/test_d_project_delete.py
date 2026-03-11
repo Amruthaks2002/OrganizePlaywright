@@ -1,5 +1,11 @@
 from playwright.sync_api import sync_playwright, expect
 from utils.login_helper import login
+
+def wait_for_message(page,text,timeout=10000):
+    msg=page.get_by_text(text)
+    msg.wait_for(state="visible" , timeout=timeout)
+    return msg
+
 def test_delete_project():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
@@ -12,5 +18,5 @@ def test_delete_project():
         success_msg = page.locator("text=Project deleted successfully.")
         expect(success_msg).to_be_visible()
         print("project deleted successfully")
-
+        wait_for_message(page,"Project deleted successfully.")
 

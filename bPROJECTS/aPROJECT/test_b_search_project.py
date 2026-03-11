@@ -13,10 +13,10 @@ def test_search_project():
         search_box=page.get_by_placeholder("Search projects...")
         search_box.fill("Automation")
         search_box.press("Enter")
-        time.sleep(5)
         heading = page.locator('[data-testid="topbar-header-slot"]')
         expect(heading).to_contain_text("Automation")
         print("Heading is:", heading.inner_text())
+        time.sleep(1)
 
 
 
