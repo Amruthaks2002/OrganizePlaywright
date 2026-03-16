@@ -11,9 +11,10 @@ def test_wfh_submitted():
         login(page)
         page.get_by_test_id("theme-toggle-button").click()
         page.get_by_test_id("sidebar-navlink-mail template editor").click()
-        page.get_by_title("Enter Fullscreen").click()
-        page.get_by_title("Exit Fullscreen").click()
-        page.get_by_role("button", name="Leave Submitted").click()
+        page.locator("#mail-live-editor-btn-fullscreen").click()
+        time.sleep(1)
+        page.locator("#mail-live-editor-btn-fullscreen").click()
+        time.sleep(1)
 
 
 
