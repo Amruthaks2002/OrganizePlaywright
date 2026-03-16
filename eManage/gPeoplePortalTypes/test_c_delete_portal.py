@@ -14,11 +14,13 @@ def test_designation_creation():
         context = browser.new_context()
         page = context.new_page()
         login(page)
+        page.get_by_test_id("theme-toggle-button").click()
+
         page.get_by_test_id("sidebar-parent-manage").click()
-        time.sleep(1)
         page.get_by_test_id("sidebar-child-people portal types").click()
         page.on("dialog", lambda dialog: dialog.accept())
 
         page.get_by_role("button", name="Delete").first.click()
         wait_for_message(page,"People Portal type deleted successfully.")
+        time.sleep(2)
 

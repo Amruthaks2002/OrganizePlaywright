@@ -7,7 +7,7 @@ def wait_for_message(page,text,timeout=10000):
     msg.wait_for(state="visible",timeout=timeout)
     return msg
 
-def test_celebration_photo():
+def test_offer_letter():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         context = browser.new_context()
@@ -32,9 +32,10 @@ def test_celebration_photo():
 
         #upload a document
         celebration_photo_upload = page.get_by_role("button" , name=" Upload ")
-        celebration_photo_upload.nth(0).click()
+        celebration_photo_upload.nth(4).click()
         page.get_by_placeholder("Document Name").fill("Automated document name")
         page.get_by_placeholder("Description").fill("Automated Description")
+
         page.locator("#upload-doc-file").set_input_files("/Users/amruthaks/Downloads/file_sample.doc")
         page.locator("#upload-doc-submit").click()
         wait_for_message(page,"Document uploaded successfully.")
@@ -51,7 +52,7 @@ def test_celebration_photo():
         search_input.fill("Admin")
         page.locator("li:has-text('Admin')").click()
         time.sleep(3)
-        page.locator("#view-doc-7-celebration_photo").nth(0).click()
+        page.locator("#view-doc-7-offer_letter").nth(0).click()
         expect(page.get_by_text("Automated document name")).to_be_visible()
 
         #download the document
@@ -73,7 +74,7 @@ def test_celebration_photo():
         wait_for_message(page, "Document updated successfully.")
 
         #delete the document
-        page.locator("#view-doc-7-celebration_photo").click()
+        page.locator("#view-doc-7-offer_letter").click()
         page.locator("#view-doc-edit").click()
         print("clicked on edit")
         time.sleep(5)
