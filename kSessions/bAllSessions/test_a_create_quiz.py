@@ -40,15 +40,19 @@ def test_bank_document():
         page.get_by_placeholder("Option B…").fill("Playwright Option B")
         page.get_by_placeholder("Option C…").fill("Playwright Option C")
         page.get_by_placeholder("Option D…").fill("Playwright Option D")
-        time.sleep(2)
+        time.sleep(1)
         page.get_by_role("button", name=" Add Question (1/20) ").click()
         page.get_by_placeholder("Enter your question…").nth(1).fill("Question generated via automation...")
         page.get_by_placeholder("Option A…").nth(1).fill("Playwright Option A")
         page.get_by_placeholder("Option B…").nth(1).fill("Playwright Option B")
         page.get_by_placeholder("Option C…").nth(1).fill("Playwright Option C")
         page.get_by_placeholder("Option D…").nth(1).fill("Playwright Option D")
-        time.sleep(2)
-        page.get_by_role("button", name=" Save Quiz").click()
-        time.sleep(2)
+        time.sleep(1)
+        import re
+
+        page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+        time.sleep(3)
+        page.get_by_role("button", name="Save Quiz").first.click()
         wait_for_message(page,"Quiz saved successfully.")
+        time.sleep(2)
 
