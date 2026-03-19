@@ -2,10 +2,12 @@ from playwright.sync_api import sync_playwright, expect
 from utils.login_helper import login
 import time
 
-def wait_for_message(page,text,timeout=10000):
-    msg= page.get_by_text(text)
-    msg.wait_for(state="visible",timeout=timeout)
+
+def wait_for_message(page, text, timeout=10000):
+    msg = page.get_by_text(text)
+    msg.wait_for(state="visible", timeout=timeout)
     return msg
+
 
 def test_bank_document():
     with sync_playwright() as p:
@@ -26,17 +28,19 @@ def test_bank_document():
         knowledge_hub.scroll_into_view_if_needed()
         knowledge_hub.click()
 
-        #editing quiz and going quiz live
-
         page.get_by_placeholder("Topic, presenter, description...").fill("Automated")
 
         with open("session_name.txt", "r") as f:
             session_name = f.read()
 
         page.get_by_text(session_name).click()
-        page.get_by_role("button", name=" Edit Quiz").click()
-
-        status_dropdown = page.get_by_role("combobox").first
-        status_dropdown.click()
-        status_dropdown.select_option("🟢 Go Live")
         time.sleep(3)
+        page.get_by_role("button", name=" + Add ").click()
+        time.sleep(3)
+
+        # upload file from Downloads
+        page.locator("input[type='file']").set_input_files("/Users/amruthaks/Downloads/file_sample.doc")
+
+        page.get_by_placeholder("e.g. Session Slides, Recording Part 1…").fill("Automated label")
+        page.get_by_role("button", name=" Post Material").click()
+        time.sleep(5)

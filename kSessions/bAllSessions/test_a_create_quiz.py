@@ -28,9 +28,13 @@ def test_bank_document():
 
         #creating quiz
 
-        page.get_by_placeholder("Topic, presenter, description...").fill("automated")
-        time.sleep(2)
-        page.get_by_role("heading", name="Automated session topic").first.click()
+        page.get_by_placeholder("Topic, presenter, description...").fill("Automated")
+
+        with open("session_name.txt", "r") as f:
+            session_name = f.read()
+
+        page.get_by_text(session_name).click()
+
         time.sleep(2)
         page.get_by_role("button", name=" Create Quiz ").first.click()
         time.sleep(2)

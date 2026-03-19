@@ -26,7 +26,7 @@ def test_bank_document():
         knowledge_hub.scroll_into_view_if_needed()
         knowledge_hub.click()
 
-        #editing quiz and going quiz live
+
 
         page.get_by_placeholder("Topic, presenter, description...").fill("Automated")
 
@@ -34,9 +34,11 @@ def test_bank_document():
             session_name = f.read()
 
         page.get_by_text(session_name).click()
-        page.get_by_role("button", name=" Edit Quiz").click()
-
-        status_dropdown = page.get_by_role("combobox").first
-        status_dropdown.click()
-        status_dropdown.select_option("🟢 Go Live")
         time.sleep(3)
+
+        # closing and revealing
+
+        page.on("dialog", lambda dialog: dialog.accept())
+        page.get_by_role("button", name="Close & Reveal").click()
+        wait_for_message(page,"Quiz closed. Results are now visible to all participants.")
+        time.sleep(1)

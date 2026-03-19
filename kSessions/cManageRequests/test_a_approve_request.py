@@ -21,22 +21,10 @@ def test_bank_document():
         expect(sessions_btn).to_be_visible()
         expect(sessions_btn).to_be_enabled()
         sessions_btn.click()
+        time.sleep(2)
 
-        knowledge_hub = page.get_by_test_id("sidebar-child-all sessions")
-        knowledge_hub.scroll_into_view_if_needed()
-        knowledge_hub.click()
+        page.get_by_role("link", name="Manage Requests").click()
 
-        #editing quiz and going quiz live
+        page.locator("button:has(span:has-text('Manage'))").first.click()
 
-        page.get_by_placeholder("Topic, presenter, description...").fill("Automated")
-
-        with open("session_name.txt", "r") as f:
-            session_name = f.read()
-
-        page.get_by_text(session_name).click()
-        page.get_by_role("button", name=" Edit Quiz").click()
-
-        status_dropdown = page.get_by_role("combobox").first
-        status_dropdown.click()
-        status_dropdown.select_option("🟢 Go Live")
-        time.sleep(3)
+        time.sleep(10)

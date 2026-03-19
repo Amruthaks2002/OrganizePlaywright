@@ -27,7 +27,15 @@ def test_bank_document():
         knowledge_hub.click()
 
         page.get_by_role("button" , name=" Request Session ").click()
-        page.locator("#sessionTopic").fill("Automated session topic")
+        import time
+
+        from datetime import datetime
+
+        session_name = f"Automated session topic {datetime.now().strftime('%H%M%S')}"
+        page.locator("#sessionTopic").fill(session_name)
+
+        with open("session_name.txt", "w") as f:
+            f.write(session_name)
         page.locator("#description").fill("Automated session description")
 
         from datetime import datetime
