@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright, expect
 from utils.login_helper import login
+
 def test_delete_project():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)

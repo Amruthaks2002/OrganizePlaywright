@@ -1,6 +1,5 @@
 from playwright.sync_api import sync_playwright, expect
 
-
 def test_present_count():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)

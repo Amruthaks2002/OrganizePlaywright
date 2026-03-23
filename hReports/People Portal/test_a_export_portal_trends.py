@@ -7,7 +7,7 @@ def wait_for_message(page,text,timeout=10000):
     msg.wait_for(state="visible",timeout=timeout)
     return msg
 
-def test_people_portal():
+def test_export_people_portal():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         context = browser.new_context()

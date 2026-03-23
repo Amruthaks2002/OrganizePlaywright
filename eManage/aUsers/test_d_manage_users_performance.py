@@ -2,7 +2,7 @@ import time
 from playwright.sync_api import sync_playwright
 from utils.login_helper import login
 
-def test_edit_users():
+def test_users_performance():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         page = browser.new_page()

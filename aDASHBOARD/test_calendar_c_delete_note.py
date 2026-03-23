@@ -1,6 +1,5 @@
 from playwright.sync_api import sync_playwright
 
-
 def test_delete_note():
 
     with sync_playwright() as p:

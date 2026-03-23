@@ -8,7 +8,7 @@ def wait_for_message(page, text, timeout=10000):
     return msg
 
 
-def test_manage_users():
+def test_add_users():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         page = browser.new_page()
