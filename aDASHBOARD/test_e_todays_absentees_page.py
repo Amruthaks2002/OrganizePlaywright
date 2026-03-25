@@ -1,5 +1,3 @@
-import time
-
 from playwright.sync_api import sync_playwright, expect
 from utils.login_helper import login
 
@@ -14,6 +12,6 @@ def test_today_absentees():
         attendance_btn.click()
         print("Clicked Attendance")
         page.get_by_role("link", name=" View Full Attendance ").click()
-        expect(page).to_have_url("**/attendance")
+        expect(page).to_have_url("https://organice.qc.iocod.com/attendance")
 
 
