@@ -23,7 +23,9 @@ def test_celebration_photo():
         page.locator("#mail-live-editor-modal-add-input-body").fill("Automated email body")
         create_btn = page.locator("#mail-live-editor-modal-add-btn-create")
         expect(create_btn).to_be_visible()
+        page.wait_for_timeout(2000)
         create_btn.click()
+        page.wait_for_timeout(200000)
         wait_for_message(page,"Template created successfully!")
 
 

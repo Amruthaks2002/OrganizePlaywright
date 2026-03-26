@@ -25,6 +25,14 @@ def test_bank_document():
 
         page.get_by_role("link", name="Manage Requests").click()
 
-        page.get_by_role("button", name="Manage").first.click()
+        #page.get_by_role("button", name="Manage").click()
+        #page.locator("//button[.//span[text()='Manage']]").click()
+        #page.get_by_text("Manage").click()
+        #page.locator("span:has-text('Manage')").click()
+        #page.locator("//button[contains(.,'Manage')]").click()
+        #page.locator("button.group\\/btn").click()
+        #page.locator("button:has-text('Manage')").click()
+
+
 
         time.sleep(10)
