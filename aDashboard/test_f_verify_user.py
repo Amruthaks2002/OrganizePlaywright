@@ -3,7 +3,7 @@ import time
 from utils.login_helper import login
 
 
-def test_add_note():
+def test_verify_user():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         page = browser.new_page()

@@ -24,7 +24,7 @@ def test_present_count():
         present = get_count("Present Today")
         on_leave = get_count("On Leave")
         in_office = get_count("In Office")
-        remote = get_count("Working Remotely")
+        remote = get_count("In Work Mode")
 
         print("Total Employees:", total)
         print("Present Today:", present)
@@ -32,11 +32,26 @@ def test_present_count():
         print("In Office:", in_office)
         print("Working Remotely:", remote)
 
-        time.sleep()
-
         # validations
         assert total - on_leave == present
-        assert present - remote == in_office
+        assert in_office + remote + on_leave == total
+
+        # No negative values
+        assert total >= 0
+        assert present >= 0
+        assert on_leave >= 0
+        assert in_office >= 0
+        assert remote >= 0
+
+        # Present can't exceed total
+        assert present <= total
+
+        # On leave can't exceed total
+        assert on_leave <= total
+
+        # In office and remote can't exceed present
+        assert in_office <= present
+        assert remote <= present
 
         print("\n✔ Attendance numbers verified successfully")
 
