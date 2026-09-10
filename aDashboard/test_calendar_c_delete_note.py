@@ -25,3 +25,9 @@ def test_delete_note():
 
         browser.close()
 
+
+if __name__ == "__main__":
+    test_delete_note()
+
+
+

@@ -24,3 +24,8 @@ def test_edit_note():
         success_msg = page.locator("text=note updated successfully")
         success_msg.wait_for(timeout=5000)
         browser.close()
+
+
+if __name__ == "__main__":
+    test_edit_note()
+
