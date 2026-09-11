@@ -7,7 +7,7 @@ def wait_for_message(page,text,timeout=10000):
     msg.wait_for(state="visible",timeout=timeout)
     return msg
 
-def test_bank_document():
+def test_create_quiz():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         context = browser.new_context()
@@ -15,28 +15,30 @@ def test_bank_document():
         login(page)
         page.get_by_test_id("theme-toggle-button").click()
 
-        from playwright.sync_api import expect
-
         sessions_btn = page.get_by_test_id("sidebar-parent-sessions")
         expect(sessions_btn).to_be_visible()
         expect(sessions_btn).to_be_enabled()
         sessions_btn.click()
 
-        knowledge_hub = page.get_by_test_id("sidebar-child-all sessions")
+        knowledge_hub = page.get_by_test_id("sidebar-child-all-sessions")
+        knowledge_hub.wait_for(state="visible")
         knowledge_hub.scroll_into_view_if_needed()
         knowledge_hub.click()
 
         #creating quiz
 
         page.get_by_placeholder("Topic, presenter, description...").fill("Automated")
+        time.sleep(1)
 
         with open("session_name.txt", "r") as f:
-            session_name = f.read()
+            session_name = f.read().strip()
 
-        page.get_by_text(session_name).click()
-
+        session_link = page.get_by_text(session_name, exact=False).first
+        session_link.wait_for(state="visible")
+        session_link.click()
+        page.wait_for_url("**/sessions/**")
         time.sleep(2)
-        page.get_by_role("button", name=" Create Quiz ").first.click()
+        page.get_by_role("button", name="Create Quiz").first.click()
         time.sleep(2)
         page.locator("textarea.w-full").first.fill("Automated quiz description...")
         page.get_by_placeholder("Enter your question…").fill("Question generated via automation...")
@@ -52,11 +54,10 @@ def test_bank_document():
         page.get_by_placeholder("Option C…").nth(1).fill("Playwright Option C")
         page.get_by_placeholder("Option D…").nth(1).fill("Playwright Option D")
         time.sleep(1)
-        import re
 
         page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
         time.sleep(3)
         page.get_by_role("button", name="Save Quiz").first.click()
         wait_for_message(page,"Quiz saved successfully.")
         time.sleep(2)
-
+        browser.close()

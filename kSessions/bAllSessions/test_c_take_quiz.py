@@ -16,7 +16,7 @@ def wait_for_message(page,text,timeout=10000):
     msg.wait_for(state="visible",timeout=timeout)
     return msg
 
-def test_delete_query():
+def test_take_quiz():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         context = browser.new_context()
@@ -31,16 +31,22 @@ def test_delete_query():
         expect(sessions_btn).to_be_enabled()
         sessions_btn.click()
 
-        knowledge_hub = page.get_by_test_id("sidebar-child-all sessions")
+        knowledge_hub = page.get_by_test_id("sidebar-child-all-sessions")
+        knowledge_hub.wait_for(state="visible")
         knowledge_hub.scroll_into_view_if_needed()
         knowledge_hub.click()
 
         page.get_by_placeholder("Topic, presenter, description...").fill("Automated")
+        time.sleep(1)
 
         with open("session_name.txt", "r") as f:
-            session_name = f.read()
+            session_name = f.read().strip()
 
-        page.get_by_text(session_name).click()
+        session_link = page.get_by_text(session_name, exact=False).first
+        session_link.wait_for(state="visible")
+        session_link.click()
+        page.wait_for_url("**/sessions/**")
+        time.sleep(2)
 
         page.get_by_role("button" , name=" Take Quiz ").click()
         time.sleep(2)
@@ -51,6 +57,8 @@ def test_delete_query():
         page.get_by_role("button" , name="Finalize & Submit").click()
         time.sleep(2)
 
-        expect(page.get_by_text("quiz submitted")).to_be_visible()
+        wait_for_message(page, "quiz submitted")
         time.sleep(2)
+
+        browser.close()
 

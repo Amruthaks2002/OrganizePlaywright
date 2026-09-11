@@ -7,7 +7,7 @@ def wait_for_message(page,text,timeout=10000):
     msg.wait_for(state="visible",timeout=timeout)
     return msg
 
-def test_bank_document():
+def test_request_session():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         context = browser.new_context()
@@ -22,7 +22,7 @@ def test_bank_document():
         expect(sessions_btn).to_be_enabled()
         sessions_btn.click()
 
-        knowledge_hub = page.get_by_test_id("sidebar-child-knowledge hub")
+        knowledge_hub = page.get_by_test_id("sidebar-child-knowledge-hub")
         knowledge_hub.scroll_into_view_if_needed()
         knowledge_hub.click()
 
@@ -46,7 +46,7 @@ def test_bank_document():
         wait_for_message(page,"Session request submitted successfully.")
         time.sleep(2)
 
-        #go to all sessions by clicking on view archive
-        page.get_by_role("link" , name="View Archive").click()
+        #go to all sessions
+        page.get_by_test_id("sidebar-child-all-sessions").click()
         time.sleep(2)
         expect(page).to_have_url("https://organice.qc.iocod.com/sessions/all")
