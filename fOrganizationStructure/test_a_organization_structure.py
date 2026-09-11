@@ -25,7 +25,7 @@ def test_organization_structure():
         time.sleep(2)
         page.get_by_placeholder("Search employees...").fill("admin")
         time.sleep(2)
-        page.locator(".boc-node--card").first.click()
+        page.locator(".boc-node--card", has_text="Admin User").first.click()
         time.sleep(2)
         page.get_by_test_id("performance-modal-report-link").click()
         import re
