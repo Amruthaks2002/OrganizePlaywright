@@ -14,7 +14,7 @@ def test_manage_request_filters():
         page = context.new_page()
         login(page)
         page.get_by_test_id("theme-toggle-button").click()
-        page.get_by_test_id("sidebar-parent-Logs").click()
+        page.get_by_test_id("sidebar-parent-leave management").click()
         page.get_by_role("link", name=" Leave Audit Logs").click()
 
         # search for employee user

@@ -34,4 +34,4 @@ def test_create_room():
         page.get_by_role("button", name="Create Room", exact=True).click()
         wait_for_message(page, re.compile("Room created successfully", re.I))
         print("Room created successfully.")
-        time.sleep(3)
+        time.sleep(2)

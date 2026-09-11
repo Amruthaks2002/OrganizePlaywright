@@ -55,5 +55,5 @@ def test_cancel_requisition():
 
         print("Resource requisition cancelled successfully.")
 
-        time.sleep(3)
+        time.sleep(2)
         browser.close()

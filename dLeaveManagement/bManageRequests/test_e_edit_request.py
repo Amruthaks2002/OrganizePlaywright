@@ -20,4 +20,4 @@ def test_request_edit():
         page.locator("textarea").fill("Edited via automation")
         page.get_by_role("button", name="Submit Request").click()
         wait_for_message(page,"Leave updated successfully.")
-        time.sleep(4)
+        time.sleep(2)

@@ -17,12 +17,13 @@ def test_create_role():
         page.get_by_test_id("sidebar-parent-manage").click()
         page.get_by_test_id("sidebar-child-roles").click()
         page.locator("#name").fill("Automation Role")
+        time.sleep(3)
 
         import random
 
-        boxes = page.locator("input[data-testid='checkbox']")
-        for cb in random.sample(boxes.all(), 3):
-            cb.check()
+        chips = page.locator("button.permission-chip")
+        for i in random.sample(range(chips.count()), 3):
+            chips.nth(i).click()
 
         page.get_by_role("button", name="Create Role").click()
         time.sleep(5)

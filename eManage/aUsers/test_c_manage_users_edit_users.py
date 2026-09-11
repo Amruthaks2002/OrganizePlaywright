@@ -24,6 +24,6 @@ def test_edit_users():
         page.locator("#email").fill("editeduser@gmail.com")
         page.locator("#personal_email").fill("editedpersonal@gmail.com")
         page.get_by_role("button", name="Save Changes").click()
-        time.sleep(5)
+        time.sleep(2)
         wait_for_message(page, "Employee details updated successfully.")
 

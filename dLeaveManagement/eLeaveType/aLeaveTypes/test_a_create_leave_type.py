@@ -21,7 +21,7 @@ def test_create_leave_type():
         page.get_by_role("button", name=" Add Leave Type ").click()
         page.get_by_text("Name *").locator("..").locator("input").fill("Automation")
         page.get_by_text("Code *").locator("..").locator("input").fill("AL")
-        page.get_by_text("Yearly Balance").locator("..").locator("input").fill("10")
+        
         page.get_by_role("button", name="Create").click()
         wait_for_message(page,"Leave type created successfully.")
 

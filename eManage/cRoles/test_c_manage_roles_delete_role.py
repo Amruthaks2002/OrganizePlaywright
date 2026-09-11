@@ -18,16 +18,15 @@ def test_delete_role():
         page.get_by_test_id("sidebar-parent-manage").click()
         page.get_by_test_id("sidebar-child-roles").click()
 
-        role_card = page.locator("div.flex.items-center.justify-between") \
-            .filter(has_text="automation role") \
-            .first
+        role_card = page.get_by_text("automation role", exact=False) \
+            .locator("xpath=ancestor::div[contains(@class,'justify-between')][1]")
         role_card.wait_for(state="visible")
 
-        role_card.get_by_role("button", name="Delete").click()
-        modal = page.get_by_role("heading", name="Delete Role")
+        # Click Delete (second of the two icon-only action buttons on the card)
+        role_card.locator("button").nth(1).click()
+        modal = page.get_by_role("heading", name="Delete Role").locator("xpath=ancestor::div[contains(@class,'fixed')][1]")
         modal.wait_for()
-        delete_modal = modal.locator("xpath=ancestor::div[contains(@class,'z-10')]")
-        delete_modal.get_by_role("button", name="Delete").click()
+        modal.get_by_role("button", name="Delete", exact=True).click()
         time.sleep(2)
 
         wait_for_message(page,"Role deleted successfully.")

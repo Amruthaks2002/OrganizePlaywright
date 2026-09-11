@@ -18,5 +18,7 @@ def test_request_cancel():
         page.get_by_role("link", name="Manage Requests").click()
         page.locator("tbody tr").first.get_by_role("button", name="View").click()
         page.get_by_role("button", name=" Cancel Request ").click()
-        page.get_by_role("button", name="Yes, Cancel").click()
+        cancel_form = page.locator("form").filter(has_text="Reason to Cancel")
+        cancel_form.get_by_placeholder("Please provide a reason to cancel...").fill("No longer needed")
+        cancel_form.get_by_role("button", name="Cancel", exact=True).click()
         wait_for_message(page,"Request cancelled successfully.")

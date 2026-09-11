@@ -23,4 +23,4 @@ def test_create_holiday():
         today = date.today().strftime("%Y-%m-%d")
         page.locator('input[type="date"]').fill(today)
         page.get_by_role("button" , name="Create").click()
-        time.sleep(5)
+        time.sleep(2)

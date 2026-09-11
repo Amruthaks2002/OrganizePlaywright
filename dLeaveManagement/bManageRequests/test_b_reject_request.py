@@ -18,7 +18,7 @@ def test_request_reject():
         page.get_by_role("link", name="Manage Requests").click()
         page.locator("tbody tr").first.get_by_role("button", name="View").click()
         page.get_by_role("button", name="Reject").click()
-        page.get_by_placeholder("Please provide a reason for rejection...").fill("Rejected by automation")
+        page.get_by_placeholder("Please provide a reason to reject...").fill("Rejected by automation")
         form = page.locator("form")
         form.get_by_role("button", name="Reject").click()
         wait_for_message(page,"Leave request rejected.")

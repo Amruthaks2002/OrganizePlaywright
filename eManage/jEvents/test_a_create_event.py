@@ -37,4 +37,4 @@ def test_create_event():
         page.get_by_role("button", name="Create Event", exact=True).last.click()
         wait_for_message(page, re.compile("Event created successfully", re.I))
         print("Event created successfully.")
-        time.sleep(3)
+        time.sleep(2)

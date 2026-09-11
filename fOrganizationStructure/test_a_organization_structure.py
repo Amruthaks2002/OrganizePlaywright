@@ -16,7 +16,7 @@ def test_organization_structure():
         page.get_by_test_id("sidebar-navlink-organization structure").click()
         time.sleep(2)
         page.get_by_test_id("enter-fullscreen-button").click()
-        time.sleep(3)
+        time.sleep(2)
         page.get_by_test_id("exit-fullscreen-button").click()
         time.sleep(2)
         page.get_by_role("button", name="Collapse").click()

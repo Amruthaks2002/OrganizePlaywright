@@ -18,4 +18,6 @@ def test_request_approve():
         page.get_by_role("link", name="Manage Requests").click()
         page.locator("tbody tr").first.get_by_role("button", name="View").click()
         page.get_by_role("button", name="Approve").click()
+        confirm_dialog = page.locator("div").filter(has_text="Are you sure you want to approve this").last
+        confirm_dialog.get_by_role("button", name="Approve", exact=True).click()
         wait_for_message(page,"Leave request approved.")

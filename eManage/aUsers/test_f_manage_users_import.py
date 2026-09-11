@@ -12,9 +12,12 @@ def test_export_and_import_users():
         page.get_by_test_id("sidebar-parent-manage").click()
         page.get_by_test_id("sidebar-child-users").click()
 
+        page.get_by_role("button", name="Export Users").click()
+        page.get_by_test_id("notification-button").click()
+        notification = page.get_by_role("button", name="Export Completed").first
+        notification.wait_for(state="visible", timeout=30000)
         with page.expect_download() as download_info:
-            page.get_by_role("button", name="Export Users").click()
-            time.sleep(5)
+            notification.click()
 
         download = download_info.value
         save_path = Path("temp_users_file.xlsx")

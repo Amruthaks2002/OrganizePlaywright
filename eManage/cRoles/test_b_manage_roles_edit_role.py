@@ -19,25 +19,22 @@ def test_edit_role():
 
         page.get_by_test_id("sidebar-parent-manage").click()
         page.get_by_test_id("sidebar-child-roles").click()
-        page.get_by_text("automation role").wait_for()
+        page.get_by_text("automation role", exact=False).wait_for()
 
-        role_card = page.locator("div.flex.items-center.justify-between") \
-                        .filter(has_text="automation role") \
-                        .first
+        role_card = page.get_by_text("automation role", exact=False) \
+                        .locator("xpath=ancestor::div[contains(@class,'justify-between')][1]")
         role_card.wait_for(state="visible")
 
-        # Click Edit
-        role_card.get_by_role("button", name="Edit").click()
-        modal = page.get_by_role("heading", name="Edit Role")
+        # Click Edit (first of the two icon-only action buttons on the card)
+        role_card.locator("button").nth(0).click()
+        modal = page.locator("div.fixed.inset-0").filter(has_text="Edit Role").first
         modal.wait_for()
-        edit_modal = modal.locator("xpath=ancestor::div[contains(@class,'p-6')]")
-        edit_input = edit_modal.get_by_test_id("text-input")
+        edit_input = modal.locator("form").locator("input").first
         edit_input.fill("Automation Role edited")
 
         print("Filled role name successfully")
 
-        print("Random permissions selected successfully")
-        page.get_by_role("button" ,name=" Save Changes ").click()
+        modal.get_by_role("button", name="Save Changes").click()
         time.sleep(3)
 
         wait_for_message(page,"Role updated successfully.")
