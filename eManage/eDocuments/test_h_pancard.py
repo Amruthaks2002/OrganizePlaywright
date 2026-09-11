@@ -24,15 +24,17 @@ def test_pancard():
 
         #search for admin
         page.get_by_placeholder("Search by name or email...").fill("admin")
-        page.click("div.vs__selected-options")
-        search_input = page.locator("input.vs__search")
-        search_input.fill("Admin")
-        page.locator("li:has-text('Admin')").click()
         time.sleep(3)
 
-        #upload a document
-        celebration_photo_upload = page.get_by_role("button" , name=" Upload ")
-        celebration_photo_upload.nth(7).click()
+        #upload a document in the admin's pan card column
+        headers = page.locator("thead th")
+        pan_card_index = 0
+        for i in range(headers.count()):
+            if headers.nth(i).inner_text().strip() == "PAN CARD":
+                pan_card_index = i
+                break
+        admin_row = page.locator("tbody tr", has_text="Admin User").first
+        admin_row.locator("td").nth(pan_card_index).get_by_role("button", name=" Upload ").click()
         page.get_by_placeholder("Document Name").fill("Automated document name")
         page.get_by_placeholder("Description").fill("Automated Description")
 
@@ -47,10 +49,6 @@ def test_pancard():
 
         #view the uploaded document of admin and check id "automated document name" is present in the popup
         page.get_by_placeholder("Search by name or email...").fill("admin")
-        page.click("div.vs__selected-options")
-        search_input = page.locator("input.vs__search")
-        search_input.fill("Admin")
-        page.locator("li:has-text('Admin')").click()
         time.sleep(3)
         page.locator("#view-doc-7-pan_card").nth(0).click()
         expect(page.get_by_text("Automated document name")).to_be_visible()

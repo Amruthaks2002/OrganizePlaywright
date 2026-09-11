@@ -18,9 +18,9 @@ def test_create_people_portal_type():
 
         page.get_by_test_id("sidebar-parent-manage").click()
         time.sleep(1)
-        page.get_by_test_id("sidebar-child-people portal types").click()
+        page.get_by_test_id("sidebar-child-people-portal-types").click()
 
-        page.get_by_placeholder("Ex: Salary Query").fill("Automation query")
+        page.get_by_placeholder("Enter type name").fill("Automation query")
         page.get_by_role("button", name="Create Type").click()
         wait_for_message(page, "People Portal type created successfully.")
 

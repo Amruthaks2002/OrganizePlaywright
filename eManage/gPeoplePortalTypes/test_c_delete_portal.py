@@ -17,7 +17,7 @@ def test_delete_people_portal_type():
         page.get_by_test_id("theme-toggle-button").click()
 
         page.get_by_test_id("sidebar-parent-manage").click()
-        page.get_by_test_id("sidebar-child-people portal types").click()
+        page.get_by_test_id("sidebar-child-people-portal-types").click()
         page.on("dialog", lambda dialog: dialog.accept())
 
         page.get_by_role("button", name="Delete").first.click()

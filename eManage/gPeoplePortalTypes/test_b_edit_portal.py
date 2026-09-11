@@ -18,8 +18,8 @@ def test_edit_people_portal_type():
 
         page.get_by_test_id("sidebar-parent-manage").click()
         time.sleep(1)
-        page.get_by_test_id("sidebar-child-people portal types").click()
+        page.get_by_test_id("sidebar-child-people-portal-types").click()
         page.get_by_role("button", name="Edit").first.click()
-        page.locator("input.w-full.rounded-xl").last.fill("Automation query edited")
+        page.locator("input.w-full.rounded-lg").last.fill("Automation query edited")
         page.get_by_role("button", name = "Save").click()
         wait_for_message(page,"People Portal type updated successfully.")
