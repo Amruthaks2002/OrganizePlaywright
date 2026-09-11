@@ -22,11 +22,12 @@ def test_export_leave_trends():
         expect(reports_btn).to_be_enabled()
         reports_btn.click()
 
-        leave_trends= page.get_by_test_id("sidebar-child-leave trends")
+        leave_trends= page.get_by_test_id("sidebar-child-leave-trends")
         leave_trends.scroll_into_view_if_needed()
         leave_trends.click()
         time.sleep(2)
 
         page.get_by_role("button", name=" Export ").click()
+        wait_for_message(page, "Leave type summary export has been started.")
         time.sleep(2)
 

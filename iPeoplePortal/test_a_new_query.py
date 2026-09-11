@@ -24,7 +24,7 @@ def test_new_query():
         login(page)
         page.get_by_test_id("theme-toggle-button").click()
         page.get_by_test_id("sidebar-navlink-people portal").click()
-        page.get_by_role("button", name="+ New Query").click()
+        page.get_by_role("button", name="+ Create Query").click()
 
         modal = page.locator(".fixed.inset-0.z-50")
         modal.wait_for()
@@ -36,6 +36,6 @@ def test_new_query():
         subject.fill("This is the subject generated via automation")
         description = modal.get_by_placeholder("Describe the case")
         description.fill("This is the description generated via automation")
-        modal.get_by_role("button" , name="Submit Query").click()
+        modal.get_by_role("button" , name="Create Query").click()
         wait_for_message(page,"Query created successfully.")
         time.sleep(1)

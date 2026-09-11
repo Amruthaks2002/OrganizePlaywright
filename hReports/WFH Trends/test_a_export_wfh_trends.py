@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright, expect
 from utils.login_helper import login
+import re
 import time
 
 def wait_for_message(page,text,timeout=10000):
@@ -22,11 +23,13 @@ def test_export_wfh_trends():
         expect(reports_btn).to_be_enabled()
         reports_btn.click()
 
-        leave_trends= page.get_by_test_id("sidebar-child-wfh trends")
+        leave_trends= page.get_by_test_id("sidebar-child-work-mode-trends")
         leave_trends.scroll_into_view_if_needed()
         leave_trends.click()
-        time.sleep(2)
+        page.wait_for_url(re.compile(r".*/reports/work-mode-trends"))
+        time.sleep(1)
 
-        page.get_by_role("button", name=" Export ").click()
+        page.get_by_role("button", name="Export Excel").click()
+        wait_for_message(page, "Work mode summary export has been started.")
         time.sleep(2)
 

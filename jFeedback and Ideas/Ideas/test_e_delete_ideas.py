@@ -23,7 +23,6 @@ def test_delete_ideas():
         time.sleep(1)
         modal = page.locator("div.relative.z-10.transform")
         modal.get_by_role("button", name="Delete").click()
-        time.sleep(2)
         delete_modal = page.get_by_role("heading", name="Delete Idea") \
             .locator("xpath=ancestor::div[contains(@class,'max-h')]")
         expect(delete_modal).to_be_visible()

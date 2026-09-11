@@ -25,7 +25,7 @@ def test_delete_query():
         page.get_by_test_id("theme-toggle-button").click()
         page.get_by_test_id("sidebar-navlink-people portal").click()
 
-        page.get_by_role("button", name="+ New Query").click()
+        page.get_by_role("button", name="+ Create Query").click()
 
         modal = page.locator(".fixed.inset-0.z-50")
         modal.wait_for()
@@ -37,11 +37,16 @@ def test_delete_query():
         subject.fill("This is the subject generated via automation")
         description = modal.get_by_placeholder("Describe the case")
         description.fill("This is the description generated via automation")
-        modal.get_by_role("button", name="Submit Query").click()
+        modal.get_by_role("button", name="Create Query").click()
         wait_for_message(page, "Query created successfully.")
         time.sleep(1)
 
+        # Switch to "My Queries" so the Delete button targets the query just created,
+        # not an arbitrary row from the org-wide "Managed Queries" list.
+        page.get_by_text("My Queries", exact=True).click()
+        time.sleep(1)
+
         page.on("dialog", lambda dialog:dialog.accept())
-        page.get_by_role("button", name="Delete").click()
+        page.get_by_role("button", name="Delete").first.click()
         wait_for_message(page,"Query deleted successfully.")
         time.sleep(1)
