@@ -1,18 +1,14 @@
 from playwright.sync_api import sync_playwright
+from utils.login_helper import login
 
 def test_delete_note():
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False, slow_mo=300)
         page = browser.new_page()
-        page.goto("https://organice.qc.iocod.com")
-        page.fill("#email", "admin@example.com")
-        page.fill("#password", "password")
-        page.click("[data-testid='sign-in-button']")
-        page.wait_for_url("**/dashboard**")
-        print("✔ Logged in successfully")
+        login(page)
 
-        today_event = page.locator("td.fc-day-today a.fc-event").first
+        today_event = page.locator("td.fc-day-today a.fc-event", has_text="Automation note").first
         today_event.click()
         print("Clicked today's note event")
         page.get_by_role("button" , name="Delete").click()

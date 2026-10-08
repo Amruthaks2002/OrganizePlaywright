@@ -1,6 +1,7 @@
 from playwright.sync_api import sync_playwright, expect
 from datetime import date
 from utils.login_helper import login
+from utils.dashboard_helper import delete_project
 
 def test_task_assign():
 
@@ -9,31 +10,35 @@ def test_task_assign():
         context = browser.new_context()
         page = context.new_page()
         login(page)
-        page.locator("//a[@data-testid='sidebar-navlink-projects']").click()
-        page.wait_for_url("**/projects")
-        print("✔ Navigated to Projects Page")
-        page.locator("//button[contains(., 'Create Project')]").click()
-        page.fill("#name", "Automation Test Project")
-        page.select_option("#project_manager_id", index=1)
-        print("✔ Manager selected")
-        page.locator("//label[normalize-space()='core development team']").click()
-        today = date.today().strftime("%Y-%m-%d")
-        page.fill("#end_date", today)
-        create_project_btn = page.locator("//form//button[contains(., 'Create Project')]")
-        create_project_btn.scroll_into_view_if_needed()
-        create_project_btn.click()
-        print("✔ Project Created")
-        project_name = "Automation Test Project"
-        view_btn = page.locator(
-            f"//h3/a[text()='{project_name}']/ancestor::div[contains(@class,'rounded-2xl')]//a[contains(text(),'View')]"
-        )
-        view_btn.click(force=True)
-        print("✔ Opened Project")
-        create_task(page, "Automation Task 01", None)
-        create_task(page, "Automation Task 02", "in_progress")
-        create_task(page, "Automation Task 03", "completed")
-        create_task_with_due_date(page, "Automation Task 04", today)
-        print("\n✔ ALL 4 TASKS CREATED SUCCESSFULLY")
+        try:
+            page.locator("//a[@data-testid='sidebar-navlink-projects']").click()
+            page.wait_for_url("**/projects")
+            print("✔ Navigated to Projects Page")
+            page.locator("//button[contains(., 'Create Project')]").click()
+            page.fill("#name", "Automation Test Project")
+            page.select_option("#project_manager_id", index=1)
+            print("✔ Manager selected")
+            page.locator("//label[normalize-space()='core development team']").click()
+            today = date.today().strftime("%Y-%m-%d")
+            page.fill("#end_date", today)
+            create_project_btn = page.locator("//form//button[contains(., 'Create Project')]")
+            create_project_btn.scroll_into_view_if_needed()
+            create_project_btn.click()
+            print("✔ Project Created")
+            project_name = "Automation Test Project"
+            view_btn = page.locator(
+                f"//h3/a[text()='{project_name}']/ancestor::div[contains(@class,'rounded-2xl')]//a[contains(text(),'View')]"
+            )
+            view_btn.click(force=True)
+            print("✔ Opened Project")
+            create_task(page, "Automation Task 01", None)
+            create_task(page, "Automation Task 02", "in_progress")
+            create_task(page, "Automation Task 03", "completed")
+            create_task_with_due_date(page, "Automation Task 04", today)
+            print("\n✔ ALL 4 TASKS CREATED SUCCESSFULLY")
+        finally:
+            # the project (and its four tasks) is test data - remove it so reruns start clean
+            delete_project(page, "Automation Test Project")
         context.close()
         browser.close()
 

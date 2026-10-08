@@ -8,7 +8,7 @@ def test_edit_note():
         page = browser.new_page()
         login(page)
 
-        today_event = page.locator("td.fc-day-today a.fc-event").first
+        today_event = page.locator("td.fc-day-today a.fc-event", has_text="Automation note").first
         today_event.click()
         print("✔ Clicked today's note event")
         note_box = page.locator("#note")

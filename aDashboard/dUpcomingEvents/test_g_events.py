@@ -69,7 +69,7 @@ def test_events():
         print(f"Reset -> Value after reset: {after_reset_value}%")
 
         assert after_reset_value == 85.0, (
-            f"Expected value to reset to 100%, but got {after_reset_value}%"
+            f"Expected value to reset to 85%, but got {after_reset_value}%"
         )
 
         browser.close()
