@@ -12,7 +12,7 @@ def test_page_loads():
         expect(page).to_have_url(APP_USAGE_URL)
         expect(page).to_have_title("App Usage - organice")
         expect(heading(page)).to_be_visible()
-        expect(main.get_by_text("Installs are counted once someone signs in to the app. "
+        expect(main.get_by_text("Installs are counted when the app is first opened, even before anyone signs in. "
                                 "An install is in use if it was opened in the last 30 days.")).to_be_visible()
         assert is_sidebar_active(page)
         for section in ["Active today", "Active this week", "Installs in use", "On the latest version",

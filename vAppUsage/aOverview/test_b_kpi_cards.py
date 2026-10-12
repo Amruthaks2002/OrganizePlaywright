@@ -14,7 +14,8 @@ def test_kpi_cards():
         assert kpis["Active this week"] == (str(s["weekly_active"]), f"{s['monthly_active']} in the last 30 days"), kpis
         assert kpis["Installs in use"] == (
             str(s["active_installs"]),
-            f"{s['android_installs']} Android · {s['ios_installs']} iOS · {s['new_installs']} new"), kpis
+            f"{s['android_installs']} Android · {s['ios_installs']} iOS · {s['new_installs']} new · "
+            f"{s['unsigned_installs']} not signed in"), kpis
         value, subtitle = kpis["On the latest version"]
         if s["active_installs"]:
             assert value == f"{int(s['on_latest'] * 100 / s['active_installs'] + 0.5)}%", (value, s)
