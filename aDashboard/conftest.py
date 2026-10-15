@@ -14,6 +14,8 @@ HERE = Path(__file__).parent
 
 # read-only folders: their tests can run on any worker at any time
 READ_ONLY = {"aProfileCard", "bAttendance", "gHeader"}
+# read-only files inside grouped folders: they don't change or count shared data, so leave them ungrouped
+READ_ONLY_FILES = {"dUpcomingEvents/test_b_view_all_link.py", "dUpcomingEvents/test_g_events.py"}
 
 
 def pytest_configure(config):
@@ -37,8 +39,9 @@ def pytest_collection_modifyitems(config, items):
         path = Path(item.fspath)
         if HERE not in path.parents:
             continue
-        folder = path.relative_to(HERE).parts[0]
-        if folder not in READ_ONLY:
+        rel = path.relative_to(HERE)
+        folder = rel.parts[0]
+        if folder not in READ_ONLY and rel.as_posix() not in READ_ONLY_FILES:
             # cTasks: task counts move when another task test adds or starts a task
             # dUpcomingEvents: the event test changes the count the other tests read
             # eCalendar / fCalendarNotes: notes and chip counts on the same calendar
