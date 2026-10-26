@@ -5,7 +5,7 @@ from utils.work_summary_bulk_helper import (bulk_prefix, create_logs, show_entri
 
 
 def test_employee_dock():
-    """WS-093: an employee ticking their own pending comp entry gets Approve (0) and Reject (0) disabled - they
+    """WS-093: an employee ticking their own pending comp entry gets no Approve or Reject in the dock - they
     can't decide on comp requests - and Delete (1) enabled."""
     with sync_playwright() as p:
         admin_browser, admin = open_browser(p)
@@ -15,7 +15,7 @@ def test_employee_dock():
             [log] = create_logs(page, prefix, 1)
             show_entries(page, "Comp Hours", earliest([log]))
             tick(page, log["description"])
-            expect_dock(page, 1, approve=0, reject=0, delete=1)
+            expect_dock(page, 1, approve=None, reject=None, delete=1)
         finally:
             cleanup_prefixed(admin, prefix)
             browser.close()

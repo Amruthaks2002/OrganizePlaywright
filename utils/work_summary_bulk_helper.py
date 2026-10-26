@@ -95,7 +95,7 @@ def find_prefixed(page: Page, prefix, days=SEARCH_DAYS, **extra):
             found += [log for log in data["data"] if (log["description"] or "").startswith(prefix)]
             last = data["last_page"]
             page_no += 1
-    return sorted(found, key=lambda log: log["description"])
+    return sorted(found, key=lambda log: log["description"] or "")
 
 
 def _create_log(page: Page, desc, day, hours, project_id=PROJECT_ID):

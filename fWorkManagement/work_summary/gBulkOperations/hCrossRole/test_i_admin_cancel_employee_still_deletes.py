@@ -23,7 +23,7 @@ def test_admin_cancel_employee_still_deletes():
 
             show_entries(page, "Comp Hours", earliest(logs))
             tick(page, *descs)
-            expect_dock(page, 2, approve=0, reject=0, delete=2)
+            expect_dock(page, 2, approve=None, reject=None, delete=2)
             run_bulk(page, "Delete")
             expect_toast(page, deleted_msg(2))
             for desc in descs:

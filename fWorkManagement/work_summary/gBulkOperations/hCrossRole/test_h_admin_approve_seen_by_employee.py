@@ -33,7 +33,7 @@ def test_admin_approve_seen_by_employee():
                 expect(r.locator("span.rounded-full").last).to_have_text(BADGES["approved"])
                 expect(edit_button(r)).to_have_count(0)
             tick(page, *descs)
-            expect_dock(page, 2, approve=0, reject=0, delete=0)
+            expect_dock(page, 2, approve=None, reject=None, delete=0)
             assert comp_balance(admin, user["id"]) == expected_after_approval(balance, leftover, 4)
         finally:
             cleanup_prefixed(admin, prefix)

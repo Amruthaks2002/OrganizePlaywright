@@ -23,7 +23,7 @@ def test_admin_reject_seen_by_employee():
             for desc in descs:
                 expect(entry_row(page, desc).locator("span.rounded-full").last).to_have_text(BADGES["rejected"])
             tick(page, *descs)
-            expect_dock(page, 2, approve=0, reject=0, delete=0)
+            expect_dock(page, 2, approve=None, reject=None, delete=0)
         finally:
             cleanup_prefixed(admin, prefix)
             browser.close()

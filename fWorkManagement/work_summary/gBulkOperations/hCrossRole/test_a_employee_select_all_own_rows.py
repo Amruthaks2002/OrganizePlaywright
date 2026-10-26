@@ -6,7 +6,7 @@ from utils.work_summary_bulk_helper import (bulk_prefix, create_logs, show_entri
 
 def test_employee_select_all_own_rows():
     """WS-099: an employee's Comp Hours only lists their own entries, so 'select all' only ticks theirs: Delete
-    counts their pending ones, and Approve (0) / Reject (0) stay disabled."""
+    counts their pending ones, and Approve / Reject are not shown."""
     with sync_playwright() as p:
         admin_browser, admin = open_browser(p)
         browser, page = open_browser_as(p, "employee")
@@ -20,7 +20,7 @@ def test_employee_select_all_own_rows():
             deletable = [l for l in listed if l["can"]["delete"] and l["comp_off_status"] == "pending"]
 
             header_checkbox(page).check()
-            expect_dock(page, len(listed), approve=0, reject=0, delete=len(deletable))
+            expect_dock(page, len(listed), approve=None, reject=None, delete=len(deletable))
         finally:
             cleanup_prefixed(admin, prefix)
             browser.close()

@@ -15,7 +15,7 @@ def test_employee_deletes_own():
             descs = [log["description"] for log in logs]
             show_entries(page, "Comp Hours", earliest(logs))
             tick(page, *descs)
-            expect_dock(page, 2, approve=0, reject=0, delete=2)
+            expect_dock(page, 2, approve=None, reject=None, delete=2)
 
             sent = run_bulk(page, "Delete")
             assert sorted(sent) == sorted(log["id"] for log in logs), sent
