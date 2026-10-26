@@ -5,7 +5,8 @@ from utils.dashboard_helper import open_browser_as, open_attendance, attendance_
 
 
 def test_work_mode_split_and_percentage():
-    """DB-005: In Work Mode equals Remote + Request, and the Present % equals present / total (rounded)."""
+    """DB-005: In Work Mode equals Remote + Request, and the Present % equals present / total (truncated,
+    so 236/237 shows 99% rather than a misleading 100%)."""
     with sync_playwright() as p:
         browser, page = open_browser_as(p, "admin")
         open_attendance(page)
@@ -19,5 +20,5 @@ def test_work_mode_split_and_percentage():
         total = attendance_stat(page, "Total Employees")
         present = attendance_stat(page, "Present Today")
         percent = int(re.search(r"Present Today\s*\n\s*\d+\s*\n\s*(\d+)%", text).group(1))
-        assert percent == round(present / total * 100), f"{percent}% shown for {present}/{total}"
+        assert percent == present * 100 // total, f"{percent}% shown for {present}/{total}"
         browser.close()

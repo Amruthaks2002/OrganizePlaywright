@@ -154,8 +154,10 @@ def absentee_buttons(page: Page):
 
 
 def person_row(button, marker):
-    # the avatar button sits in a row that also carries the name, designation and leave / work mode type
-    return button.locator(f"xpath=ancestor::*[contains(normalize-space(.), '{marker}')][1]")
+    # the avatar button sits in a row that also carries the name, designation and leave / work mode type;
+    # the type is upper-cased by CSS only (DOM text is 'Full Day Leave'), so match case-insensitively
+    upper = "translate(normalize-space(.), 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ')"
+    return button.locator(f"xpath=ancestor::*[contains({upper}, '{marker.upper()}')][1]")
 
 
 def absentee_row(button):
