@@ -14,7 +14,6 @@ def test_clear_filters():
 
         open_marketplace(page)
         expect(clear_filters_button(page)).to_have_count(0)
-        total = result_count(page).inner_text()
 
         open_marketplace(page, search="no-such-app-zzqx", category="Reporting", platform="idea", sort="kudos",
                          mine=True)
@@ -32,7 +31,12 @@ def test_clear_filters():
         expect(category_select(page)).to_have_value("All categories")
         expect(sort_select(page)).to_have_value("latest")
         expect(mine_switch(page)).to_have_attribute("aria-checked", "false")
-        expect(result_count(page)).to_have_text(total)
+        # compare with a fresh unfiltered load rather than one taken at the start, so an app added or
+        # removed elsewhere on QC mid-test does not fail it
+        fresh = page.context.new_page()
+        open_marketplace(fresh)
+        expect(result_count(page)).to_have_text(result_count(fresh).inner_text())
+        expect(result_count(page)).not_to_have_text("0 results")
         expect(clear_filters_button(page)).to_have_count(0)
 
         browser.close()
