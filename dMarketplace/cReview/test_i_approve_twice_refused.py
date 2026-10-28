@@ -6,10 +6,11 @@ from utils.marketplace_helper import (
 
 def test_approve_twice_refused():
     """MP-029: approving an app that's already live doesn't approve it again.
-
-    Known bug: a second POST /marketplace/{id}/approve on an approved app is accepted and adds a
-    duplicate 'Approved by Admin User' entry to its history. This test fails until approve only
-    accepts pending submissions."""
+    Open the review queue (/marketplace/review) in two tabs. 
+    Your app should appear in both.
+    Tab 1: click Approve on the app. You should see "…is now live in the marketplace".
+    Tab 2: don't refresh. Click Approve on the same app.
+    Go to the app's detail page and look at the History section."""
     with sync_playwright() as p:
         browser, page = open_browser(p)
         name = unique_name()

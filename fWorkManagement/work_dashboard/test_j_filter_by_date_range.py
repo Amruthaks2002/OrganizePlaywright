@@ -16,12 +16,10 @@ def test_filter_by_date_range():
         date_inputs = main.locator("input[type='date']")
         date_inputs.nth(0).fill("2026-08-01")
         date_inputs.nth(1).fill("2026-08-31")
-        page.wait_for_timeout(1000)
 
+        # wait for the table to re-filter rather than a fixed pause, which was sometimes too short
         date_cells = main.locator('table:has-text("EMPLOYEE") tbody tr td:nth-child(3)')
-        count = date_cells.count()
-        assert count > 0, "Expected at least one request within the selected date range"
-        for i in range(count):
-            expect(date_cells.nth(i)).to_contain_text("Aug")
+        expect(date_cells.filter(has_not_text="Aug")).to_have_count(0, timeout=15000)
+        assert date_cells.count() > 0, "Expected at least one request within the selected date range"
 
         browser.close()

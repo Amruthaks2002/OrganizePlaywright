@@ -42,10 +42,11 @@ def submit_and_confirm(page, submit_button, success_text, timeout=25000):
             return
         if not dialog_handled and limit_dialog.is_visible():
             page.get_by_role("button", name="Yes, Proceed").click()
-            page.wait_for_timeout(300)
-            # a plain click can hang here waiting for the button to be
-            # judged "stable"; force bypasses that since it's clickable
-            submit_button.click(force=True, timeout=10000)
+            # wait for the dialog to finish closing: clicking Submit while its
+            # overlay is still fading out (even with force) hits the overlay
+            # and the request is never resubmitted
+            expect(limit_dialog).to_be_hidden(timeout=10000)
+            submit_button.click(timeout=10000)
             dialog_handled = True
             continue
         page.wait_for_timeout(250)

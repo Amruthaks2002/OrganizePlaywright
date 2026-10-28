@@ -35,7 +35,9 @@ def test_approve_request():
         view_modal.get_by_role("button", name="Approve", exact=True).click()
 
         # Confirm approval
-        confirm_dialog = page.locator("div").filter(
+        # the dialog is rendered several times in the DOM; take the last visible
+        # overlay rather than the innermost <div> with the text (which has no buttons)
+        confirm_dialog = page.locator("div.fixed.inset-0:visible").filter(
             has_text="Are you sure you want to approve this"
         ).last
 

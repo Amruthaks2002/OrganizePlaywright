@@ -433,4 +433,8 @@ def trending_list(page: Page):
 
 
 def trend_totals(page: Page):
-    return page_props(page, TRENDS_URL)["trends"]["totals"]
+    """The totals the loaded Trends page rendered its tiles from. Read from the page itself rather than a
+    second request, so a submission elsewhere on QC in between can't make the two disagree. open_trends()
+    does a full load, so the data-page attribute is current."""
+    props = json.loads(page.locator("[data-page]").first.get_attribute("data-page"))["props"]
+    return props["trends"]["totals"]

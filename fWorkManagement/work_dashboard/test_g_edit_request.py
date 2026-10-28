@@ -42,10 +42,11 @@ def submit_and_confirm(page, submit_button, success_text, timeout=25000):
             return
         if not dialog_handled and limit_dialog.is_visible():
             page.get_by_role("button", name="Yes, Proceed").click()
-            page.wait_for_timeout(300)
-            # a plain click can hang here waiting for the button to be
-            # judged "stable"; force bypasses that since it's clickable
-            submit_button.click(force=True, timeout=10000)
+            # wait for the dialog to finish closing: clicking Submit while its
+            # overlay is still fading out (even with force) hits the overlay
+            # and the request is never resubmitted
+            expect(limit_dialog).to_be_hidden(timeout=10000)
+            submit_button.click(timeout=10000)
             dialog_handled = True
             continue
         page.wait_for_timeout(250)
@@ -73,7 +74,12 @@ def test_edit_request():
         modal.locator("textarea").fill("Automated test - request to edit")
         submit_and_confirm(page, modal.get_by_role("button", name="Submit Request"), "Work mode application submitted successfully.")
 
-        main.locator('table:has-text("EMPLOYEE") tbody tr').first.get_by_role("button", name="Edit", exact=True).click()
+        # opening Edit loads the employee's balance in the background; wait for it before
+        # submitting. If Update is clicked while that request is still running, it overwrites
+        # the session and the monthly-limit warning is lost: the dialog closes, nothing is
+        # saved and no toast appears (app race condition, not a test issue)
+        with page.expect_response(lambda r: "/work-mode/employee-balance" in r.url):
+            main.locator('table:has-text("EMPLOYEE") tbody tr').first.get_by_role("button", name="Edit", exact=True).click()
         edit_modal = page.locator("div.fixed.inset-0").last
         updated_reason = "Automated test - reason updated"
         edit_modal.locator("textarea").first.fill(updated_reason)
