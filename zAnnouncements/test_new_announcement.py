@@ -29,5 +29,4 @@ def test_newannouncement():
         success_msg.wait_for(timeout=10000)
         print("✔ Success message displayed")
         page.wait_for_load_state("networkidle")
-        time.sleep(2)
 
