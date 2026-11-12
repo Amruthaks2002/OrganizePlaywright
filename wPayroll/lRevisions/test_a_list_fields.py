@@ -104,9 +104,10 @@ def test_list_fields():
         goto(hr, REVISIONS_URL)
         table = hr.locator("main tbody")
         for i, r in enumerate(rows[:10]):
-            line = table.locator("tr").nth(i).inner_text()
-            assert r["user"]["name"] in line, line
-            assert r["status_label"] in line and r["created_by"]["name"] in line, line
+            # the page collapses repeated spaces in names ("Amrutha  KS" is shown as "Amrutha KS")
+            line = " ".join(table.locator("tr").nth(i).inner_text().split())
+            assert " ".join(r["user"]["name"].split()) in line, line
+            assert r["status_label"] in line and " ".join(r["created_by"]["name"].split()) in line, line
             assert "₹" in line
 
         browser.close()

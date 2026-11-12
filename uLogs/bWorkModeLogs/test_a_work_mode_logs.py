@@ -16,6 +16,8 @@ def test_work_mode_logs_filters():
         login(page)
         page.get_by_test_id("theme-toggle-button").click()
 
+        # Logs now sits in the collapsed "System" sidebar section
+        page.get_by_test_id("sidebar-section-system").click()
         page.get_by_test_id("sidebar-parent-logs").click()
         work_mode_logs_link = page.get_by_test_id("sidebar-child-work-mode-logs")
         work_mode_logs_link.wait_for(state="visible")

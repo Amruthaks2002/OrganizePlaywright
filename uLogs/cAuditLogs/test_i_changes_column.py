@@ -12,6 +12,8 @@ def test_audit_logs_changes_column_states():
         login(page)
         page.get_by_test_id("theme-toggle-button").click()
 
+        # Logs now sits in the collapsed "System" sidebar section
+        page.get_by_test_id("sidebar-section-system").click()
         page.get_by_test_id("sidebar-parent-logs").click()
         audit_log_link = page.get_by_test_id("sidebar-child-audit-log")
         audit_log_link.wait_for(state="visible")

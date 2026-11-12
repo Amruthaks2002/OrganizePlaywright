@@ -5,7 +5,7 @@ import json
 import os
 import struct
 import time
-from datetime import date
+from datetime import date, datetime
 
 import pytest
 from playwright.sync_api import Page, sync_playwright
@@ -119,9 +119,14 @@ def test_ytd():
         year = run["period_year"] if run["period_month"] >= 4 else run["period_year"] - 1
 
         history = props_at(hr, f"{SALARIES_URL}/{slip['user']['id']}")["recentPayslips"]
+
+        def period(s):
+            # the salary month ("March 2026"), not the pay date: March's salary paid on 7 April is last year's
+            month = datetime.strptime(s["period_label"], "%B %Y")
+            return month.year, month.month
+
         in_year = [s for s in history if s["status"] in ("finalized", "paid")
-                   and (int(s["pay_date"][:4]), int(s["pay_date"][5:7])) >= (year, 4)
-                   and s["pay_date"] <= run["pay_date"]]
+                   and (year, 4) <= period(s) <= (run["period_year"], run["period_month"])]
         totals = {}
         for s in in_year:
             for item in payslip_detail(hr, s["id"])["items"]:
